@@ -1,6 +1,6 @@
 # Maison Lydia AK
 
-Boutique responsive Next.js pour Maison Lydia AK, avec une première expérience d'achat, une demande de commande assistée par WhatsApp, une base Supabase sécurisée et une interface d'administration des produits.
+Boutique responsive Next.js pour Maison Lydia AK, avec une première expérience d'achat, une demande de commande assistée par WhatsApp, une base Supabase sécurisée et une interface d'administration des produits et demandes reçues.
 
 ## Démarrage
 
@@ -34,4 +34,4 @@ Le projet est prêt pour un déploiement Next.js sur Vercel. Ajouter les trois v
 
 - Boutique : accueil, catalogue, détail produit, panier et commande assistée.
 - Administration : connexion Supabase Auth, produits et photos.
-- Évolutions : paramètres USD/CDF, commandes, fournisseurs, livraison, notifications et comptes clients après validation des parcours correspondants.
+- Évolutions : paramètres USD/CDF, gestion des fournisseurs, livraison, notifications et comptes clients après validation des parcours correspondants.

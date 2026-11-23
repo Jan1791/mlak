@@ -109,6 +109,15 @@ create table public.order_items (
   line_total numeric(14,2) not null check (line_total >= 0)
 );
 
+create table public.order_status_history (
+  id uuid primary key default gen_random_uuid(),
+  order_id uuid not null references public.orders(id) on delete cascade,
+  old_status public.order_status,
+  new_status public.order_status not null,
+  changed_by uuid references auth.users(id) on delete set null,
+  changed_at timestamptz not null default now()
+);
+
 create table public.newsletter_subscribers (
   id uuid primary key default gen_random_uuid(),
   email text not null unique,
@@ -133,6 +142,23 @@ create trigger product_supplier_details_set_updated_at before update on public.p
 create trigger store_settings_set_updated_at before update on public.store_settings for each row execute function public.set_updated_at();
 create trigger orders_set_updated_at before update on public.orders for each row execute function public.set_updated_at();
 
+create or replace function public.log_order_status_change()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if old.status is distinct from new.status then
+    insert into public.order_status_history (order_id, old_status, new_status, changed_by)
+      values (new.id, old.status, new.status, auth.uid());
+  end if;
+  return new;
+end;
+$$;
+create trigger orders_log_status_change after update of status on public.orders
+  for each row execute function public.log_order_status_change();
+
 alter table public.user_roles enable row level security;
 alter table public.products enable row level security;
 alter table public.suppliers enable row level security;
@@ -140,6 +166,7 @@ alter table public.product_supplier_details enable row level security;
 alter table public.store_settings enable row level security;
 alter table public.orders enable row level security;
 alter table public.order_items enable row level security;
+alter table public.order_status_history enable row level security;
 alter table public.newsletter_subscribers enable row level security;
 
 create policy "users can read their own role" on public.user_roles
@@ -180,6 +207,8 @@ create policy "admins and customers read order items" on public.order_items
       where orders.id = order_items.order_id and orders.customer_id = (select auth.uid())
     )
   );
+create policy "admins read order status history" on public.order_status_history
+  for select to authenticated using (public.is_admin());
 
 create policy "admins read newsletter subscriptions" on public.newsletter_subscribers
   for select to authenticated using (public.is_admin());
@@ -192,7 +221,7 @@ grant select on public.user_roles to authenticated;
 grant insert, update, delete on public.user_roles to authenticated;
 grant select, insert, update, delete on public.suppliers, public.product_supplier_details to authenticated;
 grant select, update on public.orders to authenticated;
-grant select on public.order_items, public.newsletter_subscribers to authenticated;
+grant select on public.order_items, public.order_status_history, public.newsletter_subscribers to authenticated;
 
 create or replace function public.create_order(
   p_customer_name text,
@@ -282,6 +311,9 @@ begin
   insert into public.orders (customer_id, customer_name, phone, city, notes, contact_consent_at, currency, exchange_rate_snapshot, total)
     values (auth.uid(), trim(p_customer_name), trim(p_phone), trim(p_city), left(coalesce(p_notes, ''), 500), now(), p_currency, v_rate, v_total)
     returning id, order_number into v_order_id, v_order_number;
+
+  insert into public.order_status_history (order_id, new_status, changed_by)
+    values (v_order_id, 'received', auth.uid());
 
   insert into public.order_items (order_id, product_id, product_name, quantity, size, color, unit_price, line_total)
     select v_order_id,

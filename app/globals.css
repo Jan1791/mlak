@@ -330,6 +330,31 @@ img { max-width: 100%; }
 .admin-table-empty { height: 62px; color: #78676a; text-align: center; }
 .admin-table-footer { min-height: 38px; padding: 8px 13px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #edcbd1; color: #6d5c5d; font-size: 10px; }
 .admin-table-footer a { display: flex; gap: 6px; color: var(--rose-dark); font-weight: 700; }
+.orders-toolbar { margin: 10px 0 13px; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #6f5a5b; font-size: 12px; }
+.orders-toolbar strong { color: #3d2528; font-size: 16px; }
+.orders-toolbar select, .order-total select { min-height: 35px; padding: 7px 10px; border: 1px solid #e6c7cc; border-radius: 8px; background: white; font-size: 11px; }
+.orders-list { display: grid; gap: 11px; }
+.order-card { padding: 14px; border: 1px solid #edcbd1; border-radius: 12px; background: rgba(255,255,255,.86); box-shadow: 0 3px 10px rgba(144,57,75,.05); }
+.order-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid #f2e4e4; }
+.order-card-head > div { display: flex; align-items: baseline; gap: 10px; }
+.order-number { color: #372124; font-size: 14px; font-weight: 700; }
+.order-card-head small { color: #826c6d; font-size: 10px; }
+.order-card-grid { padding: 11px 0; display: grid; grid-template-columns: minmax(145px,.8fr) minmax(210px,1.5fr) minmax(150px,.75fr); gap: 15px; align-items: start; }
+.order-card-grid h3 { margin: 0 0 5px; font-size: 13px; }
+.order-card-grid p { margin: 4px 0; color: #776264; font-size: 11px; }
+.order-whatsapp { margin-top: 7px; display: inline-flex; align-items: center; gap: 5px; color: #277e49; font-size: 10px; font-weight: 700; }
+.order-items-list { display: grid; gap: 6px; }
+.order-items-list > div { display: flex; justify-content: space-between; gap: 8px; color: #584649; font-size: 10px; }
+.order-items-list strong { color: #332123; white-space: nowrap; }
+.order-total { display: grid; justify-items: end; gap: 6px; }
+.order-total small { color: #7e696a; font-size: 9px; }
+.order-total > strong { color: #3a2023; font-size: 15px; }
+.order-total select { width: 100%; }
+.order-notes { margin: 3px 0 8px; padding: 9px 10px; border-radius: 8px; color: #655153; background: #fff7ec; font-size: 10px; line-height: 1.5; }
+.order-history { padding-top: 8px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; border-top: 1px solid #f1e3e2; color: #826e6e; font-size: 9px; }
+.order-history strong { color: #594244; }
+.order-history span:not(:last-child):after { content: "›"; margin-left: 7px; color: #bc858b; }
+.orders-empty { padding: 37px 16px; border: 1px dashed #e9cfd0; border-radius: 10px; background: white; }
 
 @media (max-width: 760px) {
   .admin-app { grid-template-columns: 1fr; }
@@ -362,6 +387,10 @@ img { max-width: 100%; }
   .admin-table-wrap { margin: 0 -4px; }
   .admin-table-wrap th, .admin-table-wrap td { padding: 7px; }
   .admin-table-footer { gap: 6px; }
+  .order-card-grid { grid-template-columns: 1fr; gap: 10px; }
+  .order-total { justify-items: stretch; }
+  .order-total > strong { font-size: 14px; }
+  .order-card-head > div { align-items: flex-start; flex-direction: column; gap: 4px; }
 }
 
 @media (max-width: 1000px) {
