@@ -112,8 +112,8 @@ create table public.order_items (
 create table public.order_status_history (
   id uuid primary key default gen_random_uuid(),
   order_id uuid not null references public.orders(id) on delete cascade,
-  old_status public.order_status,
-  new_status public.order_status not null,
+  old_status text,
+  new_status text not null,
   changed_by uuid references auth.users(id) on delete set null,
   changed_at timestamptz not null default now()
 );
@@ -151,7 +151,7 @@ as $$
 begin
   if old.status is distinct from new.status then
     insert into public.order_status_history (order_id, old_status, new_status, changed_by)
-      values (new.id, old.status, new.status, auth.uid());
+      values (new.id, old.status::text, new.status::text, auth.uid());
   end if;
   return new;
 end;

@@ -7,10 +7,10 @@ Boutique responsive Next.js pour Maison Lydia AK, avec une première expérience
 1. Installer Node.js et npm.
 2. Installer les dépendances avec `npm install`.
 3. Copier `.env.example` vers `.env.local` et renseigner l'URL Supabase, la clé publishable et le numéro WhatsApp.
-4. Exécuter la migration `supabase/migrations/202611230001_init.sql` depuis le SQL Editor de Supabase.
+4. Pour le projet Supabase déjà configuré pour Maison Lydia AK, exécuter `supabase/migrations/202611230002_order_flow.sql` depuis le SQL Editor. La migration `202611230001_init.sql` est le schéma de départ complet pour une nouvelle base vide; ne pas l'exécuter sur la base existante.
 5. Démarrer l'application avec `npm run dev`.
 
-L'application conserve un catalogue de démonstration si les tables Supabase ne sont pas encore créées. Les commandes ne sont confirmées qu'après vérification humaine par la boutique. Aucun paiement en ligne n'est annoncé comme actif.
+Le catalogue Supabase actuel contient déjà les tables de base et huit produits actifs. La migration complémentaire ajoute la réception des demandes de commande, leur historique de statut et l'inscription à la newsletter. L'application conserve un catalogue de démonstration si Supabase n'est pas configuré. Les commandes ne sont confirmées qu'après vérification humaine par la boutique. Aucun paiement en ligne n'est annoncé comme actif.
 
 ## Premier compte administrateur
 
@@ -28,7 +28,7 @@ Les permissions et politiques RLS sont définies dans la migration. Les clés se
 
 ## Déploiement
 
-Le projet est prêt pour un déploiement Next.js sur Vercel. Ajouter les trois variables de `.env.example` aux paramètres du projet Vercel. L'URL cible fournie est `mlak.vercel.app`.
+Le projet est déployé sur Vercel à l'adresse `https://mlak.vercel.app`. Les variables de `.env.example` doivent être définies dans les paramètres du projet Vercel. La clé publishable est prévue pour le navigateur; ne jamais ajouter une clé `service_role` ou une autre clé secrète à une variable `NEXT_PUBLIC_*`.
 
 ## Étapes prévues
 
