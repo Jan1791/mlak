@@ -1,0 +1,34 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { ShoppingCart } from "lucide-react";
+import { useCart } from "@/components/cart-provider";
+import type { Product } from "@/lib/catalog";
+
+export function ProductCard({ product }: { product: Product }) {
+  const { addItem } = useCart();
+
+  function handleAdd() {
+    if (product.availability === "unavailable") return;
+    if (product.sizes.length || product.colors.length) {
+      window.location.href = `/produit/${product.slug}`;
+      return;
+    }
+    addItem(product);
+  }
+
+  return (
+    <article className="product-card">
+      <Link className="product-image-link" href={`/produit/${product.slug}`} aria-label={`Voir ${product.name}`}>
+        <Image src={product.image} alt={product.name} width={600} height={400} className="product-image" sizes="(max-width: 640px) 48vw, (max-width: 1024px) 30vw, 250px" />
+      </Link>
+      <div className="product-details">
+        <div className="product-card-heading"><Link href={`/produit/${product.slug}`}>{product.name}</Link>{product.promoLabel && <span className={`product-tag ${product.promoLabel.toLowerCase() === "promo" ? "tag-promo" : ""}`}>{product.promoLabel}</span>}</div>
+        <div className="product-prices"><strong>{product.priceUsd.toFixed(2)} $</strong><span>{product.priceCdf?.toLocaleString("fr-FR")} CDF</span></div>
+        <div className="availability-note"><span /> Disponibilité à confirmer</div>
+        <button className="add-to-cart-button" onClick={handleAdd} disabled={product.availability === "unavailable"}><ShoppingCart size={16} /> {product.availability === "unavailable" ? "Indisponible" : product.sizes.length || product.colors.length ? "Choisir les options" : "Ajouter au panier"}</button>
+      </div>
+    </article>
+  );
+}

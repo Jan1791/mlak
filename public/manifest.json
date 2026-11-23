@@ -1,0 +1,13 @@
+{
+  "name": "Maison Lydia AK",
+  "short_name": "Maison Lydia",
+  "description": "L'élégance à votre portée.",
+  "lang": "fr-CD",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff6f5",
+  "theme_color": "#d83f70",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
