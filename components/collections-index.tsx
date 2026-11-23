@@ -17,7 +17,12 @@ export function CollectionsIndex() {
         <div className="collections-grid">
           {collectionGroups.map((group, index) => {
             const Icon = icons[index] ?? Sparkles;
-            const allHref = collectionHref(group.category ? { category: group.category } : { query: group.title.toLocaleLowerCase("fr") });
+              const allHref = collectionHref({
+                  label: group.allLabel ?? group.title,
+                  ...(group.category
+                      ? { category: group.category }
+                      : { query: group.title.toLocaleLowerCase("fr") }),
+              });
             return (
               <article className={`collection-group collection-group-${group.id}`} key={group.id}>
                 <header><span className="collection-group-icon"><Icon size={19} /></span><div><h2>{group.title}</h2>{group.allLabel && <Link className="collection-all-link" href={allHref}>{group.allLabel} <ArrowRight size={13} /></Link>}</div></header>
