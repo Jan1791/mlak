@@ -4,11 +4,13 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, CheckCircle2, MessageCircle } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 type Currency = "USD" | "CDF";
 
 export function CheckoutPage() {
   const { items, totalUsd, totalCdf, clearCart } = useCart();
+  const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [currency, setCurrency] = useState<Currency>("USD");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -44,9 +46,10 @@ export function CheckoutPage() {
     setBusy(true);
     const whatsapp = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "243985986202"}?text=${encodeURIComponent(message)}`;
     try {
+      const { data: { session } } = supabase ? await supabase.auth.getSession() : { data: { session: null } };
       const response = await fetch("/api/orders", {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers: { "content-type": "application/json", ...(session?.access_token ? { authorization: `Bearer ${session.access_token}` } : {}) },
         body: JSON.stringify({
           customerName: name,
           phone,

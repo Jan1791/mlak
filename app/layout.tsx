@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { CartProvider } from "@/components/cart-provider";
+import { FavoritesProvider } from "@/components/favorites-provider";
 import { PwaRegister } from "@/components/pwa-register";
 import "./globals.css";
 
@@ -24,7 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="fr-CD">
       <body>
-        <CartProvider><PwaRegister />{children}</CartProvider>
+        <CartProvider><FavoritesProvider><PwaRegister />{children}</FavoritesProvider></CartProvider>
       </body>
     </html>
   );

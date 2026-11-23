@@ -1,5 +1,6 @@
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { AccountVisitPrompt } from "@/components/account-visit-prompt";
 
 export function StoreShell({ children }: { children: React.ReactNode }) {
   return (
@@ -7,6 +8,7 @@ export function StoreShell({ children }: { children: React.ReactNode }) {
       <SiteHeader />
       <main>{children}</main>
       <SiteFooter />
+      <AccountVisitPrompt />
     </>
   );
 }

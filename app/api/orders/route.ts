@@ -25,7 +25,11 @@ export async function POST(request: Request) {
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) return Response.json({ error: "La transmission en ligne n'est pas configurée. Vous pouvez transmettre la demande par WhatsApp." }, { status: 503 });
 
-  const supabase = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
+  const accessToken = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
+  const supabase = createClient(url, key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+    ...(accessToken ? { global: { headers: { Authorization: `Bearer ${accessToken}` } } } : {}),
+  });
   const { data: result, error } = await supabase.rpc("create_order", {
     p_customer_name: data.customerName.trim(),
     p_phone: data.phone.trim(),

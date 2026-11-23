@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowLeft, CheckCircle2, ShoppingCart } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { FavoriteButton } from "@/components/favorite-button";
 import { demoProducts, mapProductRow, type Product } from "@/lib/catalog";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
@@ -65,7 +66,7 @@ export function ProductDetailView({ slug }: { slug: string }) {
             {product.sizes.length > 0 && <label>Taille<select value={size} onChange={(event) => setSize(event.target.value)}><option value="">Choisir une taille</option>{product.sizes.map((item) => <option value={item} key={item}>{item}</option>)}</select></label>}
             {product.colors.length > 0 && <label>Couleur<select value={color} onChange={(event) => setColor(event.target.value)}><option value="">Choisir une couleur</option>{product.colors.map((item) => <option value={item} key={item}>{item}</option>)}</select></label>}
           </div>
-          <div className="detail-actions"><button className="primary-button" onClick={addToCart} disabled={product.availability === "unavailable"}><ShoppingCart size={17} /> {product.availability === "unavailable" ? "Indisponible" : "Ajouter au panier"}</button><a className="secondary-button" href="https://wa.me/243985986202" target="_blank" rel="noreferrer">Demander sur WhatsApp</a></div>
+          <div className="detail-actions"><button className="primary-button" onClick={addToCart} disabled={product.availability === "unavailable"}><ShoppingCart size={17} /> {product.availability === "unavailable" ? "Indisponible" : "Ajouter au panier"}</button><a className="secondary-button" href="https://wa.me/243985986202" target="_blank" rel="noreferrer">Demander sur WhatsApp</a><FavoriteButton productId={product.id} className="detail-favorite" /></div>
           {optionError && <p className="checkout-error" role="alert">{optionError}</p>}
           {added && <p className="success-note" role="status"><CheckCircle2 size={16} /> Ajouté au panier. <Link href="/panier">Voir mon panier</Link></p>}
           <p className="confirmation-hint">Votre demande de commande n'engage aucun paiement. Maison Lydia AK vérifie la disponibilité auprès de ses fournisseurs et vous confirme les conditions avant de préparer votre article.</p>

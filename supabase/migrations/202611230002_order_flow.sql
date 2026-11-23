@@ -2,6 +2,14 @@
 -- The first migration is a full baseline for a new Supabase project; this migration
 -- adds only the objects that were missing from the already-provisioned project.
 
+-- Some existing installations have the product/order tables but not the role table.
+-- Create it before defining the helper functions that query it.
+create table if not exists public.user_roles (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  role text not null check (role in ('owner', 'admin', 'customer')),
+  created_at timestamptz not null default now()
+);
+
 create or replace function public.is_admin()
 returns boolean
 language sql

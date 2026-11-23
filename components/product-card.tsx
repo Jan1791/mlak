@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
+import { FavoriteButton } from "@/components/favorite-button";
 import type { Product } from "@/lib/catalog";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -20,9 +21,12 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <article className="product-card">
+      <div className="product-image-wrap">
       <Link className="product-image-link" href={`/produit/${product.slug}`} aria-label={`Voir ${product.name}`}>
         <Image src={product.image} alt={product.name} width={600} height={400} className="product-image" sizes="(max-width: 640px) 48vw, (max-width: 1024px) 30vw, 250px" />
       </Link>
+      <FavoriteButton productId={product.id} compact className="product-favorite" />
+      </div>
       <div className="product-details">
         <div className="product-card-heading"><Link href={`/produit/${product.slug}`}>{product.name}</Link>{product.promoLabel && <span className={`product-tag ${product.promoLabel.toLowerCase() === "promo" ? "tag-promo" : ""}`}>{product.promoLabel}</span>}</div>
         <div className="product-prices"><strong>{product.priceUsd.toFixed(2)} $</strong><span>{product.priceCdf?.toLocaleString("fr-FR")} CDF</span></div>

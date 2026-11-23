@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BarChart3, Check, CircleHelp, ClipboardList, LayoutDashboard, LogOut, Package, Search, Settings, ShieldCheck, ShoppingBag, Truck, Users, X } from "lucide-react";
 import type { Session } from "@supabase/supabase-js";
@@ -128,7 +129,7 @@ export function AdminOrders() {
   return (
     <div className="admin-app">
       <aside className="admin-sidebar">
-        <Link href="/" className="admin-brand"><span>♛</span><strong>Maison<br /><b>Lydia AK</b></strong><small>L'élégance à votre portée.</small></Link>
+        <Link href="/" className="admin-brand"><Image src="/images/logo-maison-lydia.png" alt="Maison Lydia AK — accueil" width={1535} height={1024} className="admin-brand-logo" /></Link>
         <nav><Link href="/admin/products" className="admin-side-link"><LayoutDashboard /> Tableau de bord</Link><Link href="/admin/products" className="admin-side-link"><Package /> Produits</Link><Link href="/admin/orders" className="admin-side-link active"><ClipboardList /> Commandes</Link><Link href="/boutique" className="admin-side-link"><ShoppingBag /> Voir la boutique</Link><span className="admin-nav-separator" /><button disabled title="Disponible dans une prochaine étape" className="admin-side-link muted-link is-disabled"><Users /> Clients</button><button disabled title="Disponible dans une prochaine étape" className="admin-side-link muted-link is-disabled"><Truck /> Fournisseurs</button><button disabled title="Disponible dans une prochaine étape" className="admin-side-link muted-link is-disabled"><BarChart3 /> Rapports</button><button disabled title="Disponible dans une prochaine étape" className="admin-side-link muted-link is-disabled"><Settings /> Paramètres</button><button disabled title="Disponible dans une prochaine étape" className="admin-side-link muted-link is-disabled"><CircleHelp /> Aide & support</button></nav>
         <div className="admin-profile"><span className="profile-avatar">{session.user.email?.slice(0,1).toUpperCase()}</span><div><strong>{session.user.email}</strong><small><span /> {role === "owner" ? "Propriétaire" : "Administrateur"}</small></div><button aria-label="Se déconnecter" onClick={signOut}><LogOut size={16} /></button></div>
       </aside>
