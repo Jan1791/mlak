@@ -132,7 +132,7 @@ select id, slug, title, description, category,
   price_usd, price_cdf,
   coalesce(array(select jsonb_array_elements_text(sizes)), array[]::text[]),
   coalesce(array(select jsonb_array_elements_text(colors)), array[]::text[]),
-  availability, promo_label, is_active
+  availability::public.product_availability, promo_label, is_active
 from imported
 on conflict (slug) do update set
   title = excluded.title,
