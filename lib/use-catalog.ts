@@ -18,7 +18,16 @@ export function useCatalog() {
       .eq("is_active", true)
       .order("created_at", { ascending: false })
       .then(({ data, error }) => {
-        if (!cancelled && !error && data?.length) setProducts(data.map((row) => mapProductRow(row)));
+        if (cancelled || error || !data?.length) return;
+        const databaseProducts = data.map((row) => mapProductRow(row));
+        const generatedSlugs = new Set(demoProducts.map((product) => product.slug));
+        const catalogMigrationApplied = databaseProducts.some((product) => generatedSlugs.has(product.slug));
+        if (catalogMigrationApplied || demoProducts.length === 0) {
+          setProducts(databaseProducts);
+        } else {
+          // Until the matching catalog migration is applied, show the shipped collection files.
+          setProducts(demoProducts);
+        }
       });
 
     return () => {

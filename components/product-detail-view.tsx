@@ -21,7 +21,7 @@ export function ProductDetailView({ slug }: { slug: string }) {
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
-    if (!supabase || product) return;
+    if (!supabase) { setLoading(false); return; }
     let cancelled = false;
     void supabase.from("products")
       .select("id,slug,title,description,category,image_urls,price_usd,price_cdf,sizes,colors,availability,promo_label,is_active")
@@ -32,7 +32,7 @@ export function ProductDetailView({ slug }: { slug: string }) {
       });
     const timeout = window.setTimeout(() => { if (!cancelled) setLoading(false); }, 2500);
     return () => { cancelled = true; window.clearTimeout(timeout); };
-  }, [product, slug]);
+  }, [slug]);
 
   if (loading) return <section className="content-section detail-wrap"><div className="empty-state">Chargement de la fiche produit...</div></section>;
   if (!product) return <section className="content-section detail-wrap"><div className="empty-state"><h2>Article introuvable</h2><p>Cette fiche n'est pas disponible dans la boutique.</p><Link className="secondary-button" href="/boutique"><ArrowLeft size={15} /> Revenir à la boutique</Link></div></section>;
