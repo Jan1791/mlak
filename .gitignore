@@ -9,3 +9,8 @@ coverage/
 !.env.example
 *.log
 .DS_Store
+public/images/collections/**/*.png
+public/images/collections/**/*.jpg
+public/images/collections/**/*.jpeg
+public/images/collections/**/*.webp
+!public/images/collections/**/opt-*.webp

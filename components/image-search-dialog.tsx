@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowRight, ImageUp, Search, X } from "lucide-react";
+import { hasConfirmedPrice } from "@/lib/catalog";
 import { useCatalog } from "@/lib/use-catalog";
 import { findVisualMatches } from "@/lib/image-search";
 
@@ -54,7 +55,7 @@ export function ImageSearchDialog({ onClose }: { onClose: () => void }) {
         <label className="image-upload-control"><ImageUp size={20} /><span>Choisir une image</span><small>JPG, PNG ou WebP · 10 Mo maximum</small><input type="file" accept="image/*" onChange={chooseImage} /></label>
         {preview && <div className="image-search-preview"><Image src={preview} alt="Votre photo pour la recherche visuelle" width={160} height={130} unoptimized /><span>{loading ? "Comparaison des images…" : "Photo sélectionnée"}</span></div>}
         {message && <p className="image-search-message" role="status">{message}</p>}
-        {results.length > 0 && <div className="image-search-results"><h3>{loading ? "Recherche en cours" : "Teintes proches dans notre catalogue"}</h3>{results.map(({ product }) => <Link href={`/produit/${product.slug}`} className="image-search-result" key={product.id} onClick={onClose}><Image src={product.image} alt="" width={58} height={58} /><span><strong>{product.name}</strong><small>{product.category} · {product.priceUsd.toFixed(2)} USD</small></span><ArrowRight size={15} /></Link>)}</div>}
+        {results.length > 0 && <div className="image-search-results"><h3>{loading ? "Recherche en cours" : "Teintes proches dans notre catalogue"}</h3>{results.map(({ product }) => <Link href={`/produit/${product.slug}`} className="image-search-result" key={product.id} onClick={onClose}><Image src={product.image} alt="" width={58} height={58} /><span><strong>{product.name}</strong><small>{product.category} · {hasConfirmedPrice(product) ? `${product.priceUsd.toFixed(2)} USD` : "Prix sur demande"}</small></span><ArrowRight size={15} /></Link>)}</div>}
         <small className="image-search-privacy">Votre photo reste dans votre navigateur et n'est pas envoyée.</small>
       </section>
     </div>

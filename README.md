@@ -7,10 +7,12 @@ Boutique responsive Next.js pour Maison Lydia AK, avec collections, favoris, cr�
 1. Installer Node.js et npm.
 2. Installer les dépendances avec `npm install`.
 3. Copier `.env.example` vers `.env.local` et renseigner l'URL Supabase, la clé publishable et le numéro WhatsApp.
-4. Pour le projet Supabase déjà configuré pour Maison Lydia AK, exécuter la version actuelle de `supabase/migrations/202611230002_order_flow.sql` depuis le SQL Editor. Elle crée aussi `user_roles` si cette table manque. La migration `202611230001_init.sql` est le schéma de départ complet pour une nouvelle base vide; ne pas l'exécuter sur la base existante.
-5. Démarrer l'application avec `npm run dev`.
+4. Garder chaque nouveau produit dans `public/images/collections/<collection>/<produit>/`, avec son fichier `description` et ses photos.
+5. Générer les fiches et les photos WebP optimisées avec `npm run catalog:generate`.
+6. Pour le projet Supabase déjà configuré pour Maison Lydia AK, exécuter d'abord `supabase/migrations/202611230002_order_flow.sql`, puis la migration `supabase/migrations/202611250003_replace_catalog.sql` générée. La première crée aussi `user_roles` si cette table manque; la seconde masque l'ancien catalogue et importe les nouveaux articles. La migration `202611230001_init.sql` est le schéma complet d'une base vide; ne pas l'exécuter sur la base existante.
+7. Démarrer l'application avec `npm run dev`.
 
-Le catalogue Supabase actuel contient déjà huit produits actifs. La migration complémentaire ajoute les éléments nécessaires aux comptes clients et administrateurs, à la réception des demandes, à leur historique de statut, à la newsletter et aux photos produits. Les favoris et la comparaison visuelle d'images fonctionnent dans le navigateur; les photos de recherche ne sont pas envoyées. L'application conserve un catalogue de démonstration si Supabase n'est pas configuré. Les commandes ne sont confirmées qu'après vérification humaine par la boutique. Aucun paiement en ligne n'est annoncé comme actif.
+Les images et descriptions source alimentent le catalogue; le générateur garde la description complète, les photos de galerie et produit les WebP optimisés. Les nouveaux articles sans prix renseigné affichent « Prix sur demande » et passent par WhatsApp; le panier refuse les produits tarifés à zéro. Les favoris et la comparaison visuelle d'images fonctionnent dans le navigateur; les photos de recherche ne sont pas envoyées. Les commandes ne sont confirmées qu'après vérification humaine par la boutique. Aucun paiement en ligne n'est annoncé comme actif.
 
 ## Premier compte administrateur
 

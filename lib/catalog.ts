@@ -1,3 +1,5 @@
+import collectionProducts from "@/lib/collection-products.generated.json";
+
 export type Availability = "available" | "check" | "preorder" | "unavailable";
 
 export type Product = {
@@ -17,144 +19,59 @@ export type Product = {
   isActive: boolean;
 };
 
-export const categories = [
-  { name: "Vêtements", slug: "vetements", image: "/images/category-1.png", count: "Élégance au quotidien" },
-  { name: "Perruques", slug: "perruques", image: "/images/category-2.png", count: "Beauté & caractère" },
-  { name: "Chaussures", slug: "chaussures", image: "/images/category-3.png", count: "Le détail qui change tout" },
-  { name: "Sacs & accessoires", slug: "sacs-accessoires", image: "/images/category-4.png", count: "Vos essentiels précieux" },
-  { name: "Bijoux", slug: "bijoux", image: "/images/category-5.png", count: "Une touche d'éclat" },
-];
+export function hasConfirmedPrice(product: Pick<Product, "priceUsd">) {
+  return product.priceUsd > 0;
+}
 
-export const demoProducts: Product[] = [
-  {
-    id: "00000000-0000-4000-8000-000000000001",
-    slug: "robe-de-soiree-elegance",
-    name: "Robe de soirée Élégance",
-    description: "Une silhouette lumineuse et raffinée, pensée pour vos plus beaux moments.",
-    category: "Vêtements",
-    image: "/images/product-1.png",
-    images: ["/images/product-1.png"],
-    priceUsd: 89.99,
-    priceCdf: 135000,
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Bordeaux", "Rose poudré"],
-    availability: "check",
-    promoLabel: "Nouveau",
-    isActive: true,
-  },
-  {
-    id: "00000000-0000-4000-8000-000000000002",
-    slug: "robe-princesse-chic",
-    name: "Robe Princesse Chic",
-    description: "Une robe rose délicate aux détails précieux, pour une allure inoubliable.",
-    category: "Vêtements",
-    image: "/images/product-2.png",
-    images: ["/images/product-2.png"],
-    priceUsd: 79.99,
-    priceCdf: 120000,
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    colors: ["Rose", "Champagne"],
-    availability: "check",
-    promoLabel: "Promo",
-    isActive: true,
-  },
-  {
-    id: "00000000-0000-4000-8000-000000000003",
-    slug: "robe-royale",
-    name: "Robe Royale",
-    description: "Un noir profond et une coupe élégante pour une présence remarquée.",
-    category: "Vêtements",
-    image: "/images/product-3.png",
-    images: ["/images/product-3.png"],
-    priceUsd: 94.99,
-    priceCdf: 145000,
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Noir"],
-    availability: "check",
-    promoLabel: "Nouveau",
-    isActive: true,
-  },
-  {
-    id: "00000000-0000-4000-8000-000000000004",
-    slug: "robe-soleil-dor",
-    name: "Robe Soleil d'Or",
-    description: "Une robe dorée pleine de grâce, imaginée pour les célébrations.",
-    category: "Vêtements",
-    image: "/images/product-4.png",
-    images: ["/images/product-4.png"],
-    priceUsd: 74.99,
-    priceCdf: 110000,
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Or"],
-    availability: "check",
-    promoLabel: "Promo",
-    isActive: true,
-  },
-  {
-    id: "00000000-0000-4000-8000-000000000005",
-    slug: "perruque-glamour-lace",
-    name: "Perruque Glamour Lace",
-    description: "Une finition soignée pour un style naturel et plein d'assurance.",
-    category: "Perruques",
-    image: "/images/category-2.png",
-    images: ["/images/category-2.png"],
-    priceUsd: 79.99,
-    priceCdf: 120000,
-    sizes: [],
-    colors: ["Noir naturel"],
-    availability: "check",
-    promoLabel: null,
-    isActive: true,
-  },
-  {
-    id: "00000000-0000-4000-8000-000000000006",
-    slug: "chaussures-elegance",
-    name: "Chaussures Élégance",
-    description: "Une paire féminine pour compléter une tenue avec délicatesse.",
-    category: "Chaussures",
-    image: "/images/category-3.png",
-    images: ["/images/category-3.png"],
-    priceUsd: 69.99,
-    priceCdf: 105000,
-    sizes: ["36", "37", "38", "39", "40"],
-    colors: ["Rose poudré", "Noir"],
-    availability: "check",
-    promoLabel: null,
-    isActive: true,
-  },
-  {
-    id: "00000000-0000-4000-8000-000000000007",
-    slug: "sac-chic-prestige",
-    name: "Sac Chic Prestige",
-    description: "Un sac structuré et lumineux pour accompagner toutes vos sorties.",
-    category: "Sacs & accessoires",
-    image: "/images/category-4.png",
-    images: ["/images/category-4.png"],
-    priceUsd: 59.99,
-    priceCdf: 90000,
-    sizes: [],
-    colors: ["Rose", "Champagne"],
-    availability: "check",
-    promoLabel: null,
-    isActive: true,
-  },
-  {
-    id: "00000000-0000-4000-8000-000000000008",
-    slug: "parure-eclat",
-    name: "Parure Éclat",
-    description: "Une parure délicate qui apporte une touche de lumière à votre tenue.",
-    category: "Bijoux",
-    image: "/images/category-5.png",
-    images: ["/images/category-5.png"],
-    priceUsd: 39.99,
-    priceCdf: 60000,
-    sizes: [],
-    colors: ["Doré"],
-    availability: "check",
-    promoLabel: null,
-    isActive: true,
-  },
-];
+export function productInquiryUrl(product: Pick<Product, "name" | "slug">) {
+  const phone = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "243985986202").replace(/\D/g, "");
+  const message = `Bonjour Maison Lydia AK, je souhaite connaître le prix et la disponibilité de « ${product.name} » (${product.slug}).`;
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+}
+
+type CollectionProductSource = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  category: string;
+  image_urls: string[];
+  price_usd: number;
+  price_cdf: number | null;
+  sizes: string[];
+  colors: string[];
+  availability: Availability;
+  promo_label: string | null;
+  is_active: boolean;
+};
+
+export const demoProducts: Product[] = (collectionProducts as CollectionProductSource[]).map((row) => ({
+  id: row.id,
+  slug: row.slug,
+  name: row.title,
+  description: row.description,
+  category: row.category,
+  image: row.image_urls[0] ?? "/images/category-1.png",
+  images: row.image_urls,
+  priceUsd: Number(row.price_usd ?? 0),
+  priceCdf: row.price_cdf === null ? null : Number(row.price_cdf),
+  sizes: row.sizes ?? [],
+  colors: row.colors ?? [],
+  availability: row.availability,
+  promoLabel: row.promo_label,
+  isActive: row.is_active,
+}));
+
+const categoryNames = demoProducts.length
+  ? [...new Set(demoProducts.map((product) => product.category))]
+  : ["Robes", "Pantalons & jeans"];
+
+export const categories = categoryNames.map((name, index) => ({
+  name,
+  slug: name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("fr").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+  image: demoProducts.find((product) => product.category === name)?.image ?? (index === 0 ? "/images/category-1.png" : "/images/category-3.png"),
+  count: "Découvrez la sélection Maison Lydia AK",
+}));
 
 export function mapProductRow(row: Record<string, unknown>): Product {
   const imageList = Array.isArray(row.image_urls) ? row.image_urls.filter((item): item is string => typeof item === "string") : [];
