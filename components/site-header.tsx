@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Heart, ImageUp, MapPin, Menu, MessageCircle, Phone, Search, ShoppingCart, Truck, UserRound, X } from "lucide-react";
 import { useCart } from "@/components/cart-provider";
 import { useFavorites } from "@/components/favorites-provider";
@@ -13,6 +13,7 @@ import { SocialLinks } from "@/components/social-links";
 export function SiteHeader() {
   const { itemCount } = useCart();
   const { favoriteIds } = useFavorites();
+  const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -43,9 +44,9 @@ export function SiteHeader() {
             <Image src="/images/logo-maison-lydia.png" alt="Maison Lydia AK — L'élégance à votre portée" width={1535} height={1024} priority className="brand-logo-image" />
           </Link>
           <nav className={`main-nav ${menuOpen ? "is-open" : ""}`} aria-label="Navigation principale">
-            <Link className="nav-current" href="/" onClick={() => setMenuOpen(false)}>Accueil</Link>
-            <Link href="/boutique" onClick={() => setMenuOpen(false)}>Boutique</Link>
-            <Link href="/collections" onClick={() => setMenuOpen(false)}>Collections</Link>
+            <Link className={pathname === "/" ? "nav-current" : undefined} aria-current={pathname === "/" ? "page" : undefined} href="/" onClick={() => setMenuOpen(false)}>Accueil</Link>
+            <Link className={pathname === "/boutique" ? "nav-current" : undefined} aria-current={pathname === "/boutique" ? "page" : undefined} href="/boutique" onClick={() => setMenuOpen(false)}>Boutique</Link>
+            <Link className={pathname === "/collections" ? "nav-current" : undefined} aria-current={pathname === "/collections" ? "page" : undefined} href="/collections" onClick={() => setMenuOpen(false)}>Collections</Link>
             <Link href="/boutique?promotion=1" onClick={() => setMenuOpen(false)}>Promotions</Link>
             <Link href="/#maison" onClick={() => setMenuOpen(false)}>À propos</Link>
             <a href={`https://wa.me/${(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "243985986202").replace(/\D/g, "")}`} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Contact</a>

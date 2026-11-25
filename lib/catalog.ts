@@ -66,6 +66,11 @@ const categoryNames = demoProducts.length
   ? [...new Set(demoProducts.map((product) => product.category))]
   : ["Robes", "Pantalons & jeans"];
 
+categoryNames.sort((a, b) => {
+  const rank = (name: string) => name === "Robes" ? 0 : name === "Pantalons & jeans" ? 1 : 2;
+  return rank(a) - rank(b) || a.localeCompare(b, "fr");
+});
+
 export const categories = categoryNames.map((name, index) => ({
   name,
   slug: name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("fr").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
